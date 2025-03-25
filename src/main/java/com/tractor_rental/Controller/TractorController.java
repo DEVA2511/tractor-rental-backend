@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200") // Allow Angular frontend
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/tractors")
 public class TractorController {
@@ -54,15 +54,19 @@ public class TractorController {
             tractor.setAvailability(availability);
 
             if (image != null && !image.isEmpty()) {
-                tractor.setImage(image.getBytes()); // Store image as BLOB
+                tractor.setImage(image.getBytes());
             }
-
             tractorService.saveTractor(tractor);
             return ResponseEntity.ok("Tractor Registered Successfully");
 
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing image");
         }
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Tractor_Registor> updateTractor(@PathVariable Long id, @RequestBody Tractor_Registor updatedTractor) {
+        Tractor_Registor tractor = tractorService.updateTractor(id, updatedTractor);
+        return ResponseEntity.ok(tractor);
     }
 
     @DeleteMapping("/delete/{id}")

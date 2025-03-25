@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TractorService {
@@ -23,6 +24,21 @@ public class TractorService {
         return tractorRepository.save(tractor);
     }
 
+    public Tractor_Registor updateTractor(Long id, Tractor_Registor updatedTractor) {
+        Optional<Tractor_Registor> existingTractorOpt = tractorRepository.findById(id);
+
+        if (existingTractorOpt.isPresent()) {
+            Tractor_Registor existingTractor = existingTractorOpt.get();
+            existingTractor.setDriverName(updatedTractor.getDriverName());
+            existingTractor.setPhoneNumber(updatedTractor.getPhoneNumber());
+            existingTractor.setLocation(updatedTractor.getLocation());
+            existingTractor.setRentalPrice(updatedTractor.getRentalPrice());
+
+            return tractorRepository.save(existingTractor);
+        } else {
+            throw new RuntimeException("Tractor with ID " + id + " not found.");
+        }
+    }
     public void deleteTractor(Long id) {
         tractorRepository.deleteById(id);
     }
