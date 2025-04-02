@@ -22,10 +22,9 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
-    public Optional<Booking> getBookingById(Long id) {
-        return bookingRepository.findById(id);
+    public Booking getBookingById(Long id) {
+        return bookingRepository.findById(id).orElse(null);
     }
-
     public Booking updateBooking(Long id, Booking updatedBooking) {
         return bookingRepository.findById(id).map(booking -> {
             booking.setDriverName(updatedBooking.getDriverName());

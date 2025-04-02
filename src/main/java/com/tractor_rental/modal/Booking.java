@@ -20,12 +20,13 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String driverName;
     private String phoneNumber;
     private String location;
-    private int rentalHours;
-    private LocalDate date;
-    private LocalTime time;
-    private String status = "Pending";
+    private double rentalHours;
+    private String date;
+    private String time;
+    private double amount;
+    private String runningHours;
+    private String status;
 }
