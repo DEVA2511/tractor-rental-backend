@@ -12,6 +12,7 @@ import java.util.Optional;
 public class TractorService {
     @Autowired
     private TractorRepository tractorRepository;
+
     public List<Tractor_Registor> getAllTractors() {
         return tractorRepository.findAll();
     }

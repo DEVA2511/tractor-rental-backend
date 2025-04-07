@@ -21,7 +21,7 @@ public class Tractor_Registor {
     private int year;
     private double rentalPrice;
     private String location;
-    private boolean availability;
+
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] image;

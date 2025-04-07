@@ -38,7 +38,6 @@ public class TractorController {
             @RequestParam("rentalPrice") double rentalPrice,
             @RequestParam("location") String location,
             @RequestParam("licenseNumber") String licenseNumber,
-            @RequestParam("availability") boolean availability,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 
         try {
@@ -51,8 +50,6 @@ public class TractorController {
             tractor.setRentalPrice(rentalPrice);
             tractor.setLocation(location);
             tractor.setLicenseNumber(licenseNumber);
-            tractor.setAvailability(availability);
-
             if (image != null && !image.isEmpty()) {
                 tractor.setImage(image.getBytes());
             }
