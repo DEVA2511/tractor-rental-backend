@@ -20,8 +20,11 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true) // Change this to nullable
     private String password;
+
+//    @Column(nullable = false)
+//    private String provider;
 
     @Column(nullable = false)
     private String firstName;

@@ -1,11 +1,10 @@
 package com.tractor_rental.Service;
 
-import com.tractor_rental.DTO.AuthenticationRequest;
-import com.tractor_rental.DTO.AuthenticationResponse;
 import com.tractor_rental.DTO.RegisterRequest;
 import com.tractor_rental.modal.User;
 import com.tractor_rental.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,7 +18,13 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

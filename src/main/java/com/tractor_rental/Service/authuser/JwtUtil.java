@@ -1,6 +1,5 @@
-package com.tractor_rental.Service;
+package com.tractor_rental.Service.authuser;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -12,7 +11,6 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 public class JwtUtil {
@@ -22,8 +20,9 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(String email, String role) {
+    public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
+        Object role = "User";
         claims.put("role", role);
         return createToken(claims, email);
     }

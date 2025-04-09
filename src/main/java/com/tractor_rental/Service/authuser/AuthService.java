@@ -1,8 +1,9 @@
-package com.tractor_rental.Service;
+package com.tractor_rental.Service.authuser;
 
 import com.tractor_rental.DTO.AuthenticationRequest;
 import com.tractor_rental.DTO.AuthenticationResponse;
 import com.tractor_rental.DTO.RegisterRequest;
+import com.tractor_rental.Service.UserService;
 import com.tractor_rental.modal.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
