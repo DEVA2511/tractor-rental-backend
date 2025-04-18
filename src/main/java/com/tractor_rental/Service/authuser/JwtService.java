@@ -1,4 +1,4 @@
-package com.tractor_rental.Service;
+package com.tractor_rental.Service.authuser;
 
 import com.tractor_rental.modal.User;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ public class JwtService {
     private final JwtUtil jwtUtil;
 
     public String generateToken(User user) {
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return token;
     }
 }

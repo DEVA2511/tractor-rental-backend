@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "bookings")
@@ -29,4 +30,5 @@ public class Booking {
     private double amount;
     private String runningHours;
     private String status;
+    private String PaidStatus;
 }

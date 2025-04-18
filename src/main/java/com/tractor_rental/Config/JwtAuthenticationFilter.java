@@ -1,6 +1,6 @@
 package com.tractor_rental.Config;
 
-import com.tractor_rental.Service.JwtUtil;
+import com.tractor_rental.Service.authuser.JwtUtil;
 import com.tractor_rental.Service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

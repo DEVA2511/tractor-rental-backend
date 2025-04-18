@@ -5,10 +5,13 @@ import com.tractor_rental.Service.BookingService;
 import com.tractor_rental.modal.Booking;
 import com.tractor_rental.repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -23,9 +26,21 @@ public class BookingConteoller {
     @PostMapping("/book")
     public Booking createBooking(@RequestBody Booking booking) {
         booking.setStatus("Pending");
+        booking.setPaidStatus("Unpaid");
         Booking savedBooking = bookingRepository.save(booking);
         return ResponseEntity.ok(savedBooking).getBody();
     }
+
+//    this for update the payment status
+@PutMapping("{id}/payment-status/{status}")
+public ResponseEntity<Booking> updatePaymentStatus(
+        @PathVariable Long id,
+        @PathVariable String status) {
+    Booking booking = bookingService.findById(id);
+    booking.setPaidStatus(status);
+    bookingRepository.save(booking);
+    return ResponseEntity.ok(booking);
+}
 
 //    this for uopdate the amount and status to the booking
 @PutMapping("/{id}")
@@ -52,15 +67,11 @@ public ResponseEntity<Booking> updateBooking(@PathVariable Long id, @RequestBody
         return bookingService.getBookingById(id);
     }
 
-//    @PutMapping("/{id}")
-//    public Booking updateBooking(@PathVariable Long id, @RequestBody Booking booking) {
-//        return bookingService.updateBooking(id, booking);
-//    }
-
     @DeleteMapping("/{id}")
     public void deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
     }
+
 
 
 }
