@@ -10,6 +10,7 @@ public class JwtService {
     private final JwtUtil jwtUtil;
 
     public String generateToken(User user) {
-        return jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return token;
     }
 }

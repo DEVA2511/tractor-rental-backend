@@ -30,4 +30,5 @@ public class Booking {
     private double amount;
     private String runningHours;
     private String status;
+    private String PaidStatus;
 }

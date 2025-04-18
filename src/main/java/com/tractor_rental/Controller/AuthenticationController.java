@@ -53,13 +53,17 @@ import com.tractor_rental.DTO.RegisterRequest;
 import com.tractor_rental.Service.authuser.AuthService;
 import com.tractor_rental.Service.authuser.JwtUtil;
 import com.tractor_rental.modal.User;
+import com.tractor_rental.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -67,6 +71,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
     private final AuthService authService;
     private JwtUtil jwtUtil;
+
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
@@ -83,9 +88,11 @@ public class AuthenticationController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.isAuthenticated()) {
             User user = (User) auth.getPrincipal();
-            String token = jwtUtil.generateToken(user.getEmail());
+            String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
             return ResponseEntity.ok(new AuthenticationResponse(token, user.getEmail(), user.getRole()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
     }
+
+
 }

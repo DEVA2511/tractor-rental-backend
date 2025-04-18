@@ -101,6 +101,7 @@ package com.tractor_rental.Config;
 import com.tractor_rental.Service.authuser.CustomOAuth2UserService;
 
 import com.tractor_rental.Service.authuser.JwtUtil;
+import com.tractor_rental.Config.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -132,23 +133,30 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/swagger-ui/**",
                                 "/api/tractors/**",
                                 "/api/bookings/**",
                                 "/oauth2/**",
                                 "/oauth-callback",
-                                "/api/auth/oauth2/success"
+                                "/api/auth/oauth2/success",
+                                "/login",
+
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
                         ).permitAll()
+
+
                         .anyRequest().authenticated()
                 )
+
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login")
+
                         .authorizationEndpoint(auth -> auth
                                 .baseUri("/oauth2/authorization")
                         )
@@ -160,18 +168,18 @@ public class SecurityConfig {
                         )
                         .successHandler(oAuth2LoginSuccessHandler)
                         .failureHandler((request, response, exception) -> {
-                            response.sendRedirect("http://localhost:4200/login?error=oauth_failed");
+                            response.sendRedirect("http://localhost:4200/home");
                         })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
+        System.out.println("OAuth2LoginSuccessHandler invoked");
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

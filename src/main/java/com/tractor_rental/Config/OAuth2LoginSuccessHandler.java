@@ -87,16 +87,30 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException {
         CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-        User user = oauthUser.getUser();
+        String email = oauthUser.getEmail();
+
+        // Find or create user
+        User user = userRepository.findByEmail(email).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setEmail(email);
+            newUser.setFirstName(oauthUser.getFirstName());
+            newUser.setLastName(oauthUser.getLastName());
+            newUser.setRole("USER");
+            newUser.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+            return userRepository.save(newUser);
+        });
 
         try {
-            // Use jwtUtil instead of jwtService
-            String token = jwtUtil.generateToken(user.getEmail());
+            // Generate JWT token with email and role
+            String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
 
-            String redirectUrl = "http://localhost:4200/oauth-callback" +
+            // Construct redirect URL
+            String redirectUrl = "http://localhost:4200/oauth-redirect" +
                     "?token=" + token +
                     "&email=" + URLEncoder.encode(user.getEmail(), StandardCharsets.UTF_8.toString()) +
-                    "&name=" + URLEncoder.encode(oauthUser.getName(), StandardCharsets.UTF_8.toString());
+                    "&name=" + URLEncoder.encode(user.getFirstName(), StandardCharsets.UTF_8.toString());
+
+            // Redirect to Angular frontend
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
 
             logger.info("OAuth login success for: " + user.getEmail());
