@@ -21,9 +21,8 @@ public class Tractor_Registor {
     private int year;
     private double rentalPrice;
     private String location;
-    private boolean availability;
 
-    @Lob  // Large Object annotation for storing BLOB
-    @Column(columnDefinition = "LONGBLOB") // Optional, for MySQL
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] image;
 }
