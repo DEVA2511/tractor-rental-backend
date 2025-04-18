@@ -117,6 +117,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             logger.error("OAuth token generation failed", e);
             response.sendRedirect("http://localhost:4200/login?error=oauth_failed");
         }
+
+
     }
 }
 
