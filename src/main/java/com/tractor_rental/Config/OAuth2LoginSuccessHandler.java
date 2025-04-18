@@ -101,20 +101,18 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         });
 
         try {
-            // Generate JWT token with email and role
+            // Generate JWT token
             String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
 
-            // Construct redirect URL
-            String redirectUrl = "http://localhost:4200/oauth-redirect" +
+            // Construct redirect URL with token as query parameter
+            String redirectUrl = "http://localhost:4200/oauth-callback" +
                     "?token=" + token +
                     "&email=" + URLEncoder.encode(user.getEmail(), StandardCharsets.UTF_8.toString()) +
                     "&name=" + URLEncoder.encode(user.getFirstName(), StandardCharsets.UTF_8.toString());
 
             // Redirect to Angular frontend
-            getRedirectStrategy().sendRedirect(request, response, redirectUrl);
-
-            logger.info("OAuth login success for: " + user.getEmail());
-            logger.info("Redirecting to: " + redirectUrl);
+            response.sendRedirect(redirectUrl);
+            System.out.println("Redirecting to: " + redirectUrl);
         } catch (Exception e) {
             logger.error("OAuth token generation failed", e);
             response.sendRedirect("http://localhost:4200/login?error=oauth_failed");
