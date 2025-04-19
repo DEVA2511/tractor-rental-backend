@@ -55,8 +55,10 @@ public class UserService implements UserDetailsService {
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
+//                .Address(request.getAddress())
+//                .phoneNumber(request.getPhoneNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role("USER")
+                .role("ADMIN")
                 .build();
 
         return userRepository.save(user);

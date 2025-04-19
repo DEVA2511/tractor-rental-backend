@@ -33,6 +33,13 @@ public class User {
     private String role = "ADMIN"; // or "ADMIN"
 
 
+//
+//    private String phoneNumber;
+//
+//
+//    private String Address;
+
+
 
 
 }
